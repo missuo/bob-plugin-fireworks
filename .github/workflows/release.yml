@@ -1,0 +1,70 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build plugin
+        run: npm run build
+
+      - name: Package .bobplugin
+        id: package
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          ARTIFACT="bob-plugin-fireworks-${VERSION}.bobplugin"
+          mkdir -p dist
+          zip -j -r "dist/${ARTIFACT}" build/*
+          SHA=$(sha256sum "dist/${ARTIFACT}" | cut -d ' ' -f 1)
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "artifact=${ARTIFACT}" >> "$GITHUB_OUTPUT"
+          echo "sha256=${SHA}" >> "$GITHUB_OUTPUT"
+
+      - name: Update appcast.json
+        env:
+          VERSION: ${{ steps.package.outputs.version }}
+          SHA256: ${{ steps.package.outputs.sha256 }}
+          ARTIFACT: ${{ steps.package.outputs.artifact }}
+          REPO: ${{ github.repository }}
+        run: |
+          URL="https://github.com/${REPO}/releases/download/v${VERSION}/${ARTIFACT}"
+          MIN_BOB=$(jq -r '.minBobVersion' src/info.json)
+          NEW=$(jq -n --arg v "$VERSION" --arg s "$SHA256" --arg u "$URL" --arg m "$MIN_BOB" \
+            '{version: $v, desc: "None", sha256: $s, url: $u, minBobVersion: $m}')
+          jq --argjson new "$NEW" '.versions = [$new] + .versions' appcast.json > appcast.json.tmp
+          mv appcast.json.tmp appcast.json
+
+      - name: Commit appcast.json
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          branch: main
+          commit_message: "chore: update appcast for v${{ steps.package.outputs.version }}"
+          file_pattern: appcast.json
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/${{ steps.package.outputs.artifact }}
+          generate_release_notes: true

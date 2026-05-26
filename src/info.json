@@ -1,0 +1,173 @@
+{
+  "identifier": "me.missuo.fireworks.translate",
+  "category": "translate",
+  "version": "1.0.1",
+  "name": "Fireworks",
+  "summary": "Translate via Fireworks AI",
+  "author": "missuo",
+  "appcast": "https://github.com/missuo/bob-plugin-fireworks/raw/main/appcast.json",
+  "homepage": "https://github.com/missuo/bob-plugin-fireworks",
+  "icon": "icon.png",
+  "minBobVersion": "1.8.0",
+  "options": [
+    {
+      "identifier": "apiUrl",
+      "type": "text",
+      "title": "API URL",
+      "defaultValue": "https://api.fireworks.ai/inference/v1",
+      "desc": "Fireworks 推理服务地址，无特殊需求保持默认。",
+      "textConfig": {
+        "type": "visible"
+      }
+    },
+    {
+      "identifier": "apiKey",
+      "type": "text",
+      "title": "API Key",
+      "desc": "请输入 Fireworks API Key (fpk_ 开头)。",
+      "textConfig": {
+        "type": "secure"
+      }
+    },
+    {
+      "identifier": "model",
+      "type": "menu",
+      "title": "模型",
+      "defaultValue": "accounts/fireworks/routers/kimi-k2p6-turbo",
+      "desc": "如果你在使用 Fire Pass，不需要修改模型，因为默认支持 Kimi K2.6 Turbo。",
+      "menuValues": [
+        {
+          "title": "Kimi K2.6 Turbo",
+          "value": "accounts/fireworks/routers/kimi-k2p6-turbo"
+        },
+        {
+          "title": "自定义",
+          "value": "custom"
+        }
+      ]
+    },
+    {
+      "identifier": "customModel",
+      "type": "text",
+      "title": "自定义模型",
+      "defaultValue": "",
+      "desc": "仅在“模型”选择“自定义”时生效。注意：使用自定义模型将不受 Fire Pass 套餐覆盖，按 Fireworks 标准价格单独计费。",
+      "textConfig": {
+        "type": "visible",
+        "placeholderText": "accounts/fireworks/models/..."
+      }
+    },
+    {
+      "identifier": "mode",
+      "type": "menu",
+      "title": "模式",
+      "defaultValue": "1",
+      "desc": "请选择工作的模式",
+      "menuValues": [
+        {
+          "title": "翻译",
+          "value": "1"
+        },
+        {
+          "title": "润色",
+          "value": "2"
+        },
+        {
+          "title": "提问",
+          "value": "3"
+        },
+        {
+          "title": "自定义",
+          "value": "4"
+        }
+      ]
+    },
+    {
+      "identifier": "translationStyle",
+      "type": "menu",
+      "title": "翻译风格",
+      "defaultValue": "default",
+      "desc": "仅在“翻译”模式下生效",
+      "menuValues": [
+        {
+          "title": "默认",
+          "value": "default"
+        },
+        {
+          "title": "正式",
+          "value": "formal"
+        },
+        {
+          "title": "口语化",
+          "value": "casual"
+        },
+        {
+          "title": "直译",
+          "value": "literal"
+        },
+        {
+          "title": "地道表达",
+          "value": "natural"
+        }
+      ]
+    },
+    {
+      "identifier": "customizePrompt",
+      "type": "text",
+      "title": "自定义 Prompt",
+      "defaultValue": "",
+      "desc": "仅在“自定义”模式下生效",
+      "textConfig": {
+        "type": "visible",
+        "height": "80",
+        "placeholderText": "根据内容直译，不要遗漏任何信息"
+      }
+    },
+    {
+      "identifier": "thinking",
+      "type": "menu",
+      "title": "Thinking",
+      "defaultValue": "disabled",
+      "desc": "是否启用模型思考。翻译场景建议关闭以降低延迟与费用。",
+      "menuValues": [
+        {
+          "title": "关闭",
+          "value": "disabled"
+        },
+        {
+          "title": "开启",
+          "value": "enabled"
+        }
+      ]
+    },
+    {
+      "identifier": "reasoningEffort",
+      "type": "menu",
+      "title": "Reasoning Effort",
+      "defaultValue": "low",
+      "desc": "仅在 Thinking 开启时生效，控制思考深度。",
+      "menuValues": [
+        {
+          "title": "低",
+          "value": "low"
+        },
+        {
+          "title": "中",
+          "value": "medium"
+        },
+        {
+          "title": "高",
+          "value": "high"
+        },
+        {
+          "title": "超高",
+          "value": "xhigh"
+        },
+        {
+          "title": "最大",
+          "value": "max"
+        }
+      ]
+    }
+  ]
+}

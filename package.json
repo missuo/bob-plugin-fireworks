@@ -1,0 +1,15 @@
+{
+  "name": "bob-plugin-fireworks",
+  "version": "1.0.1",
+  "description": "Bob plugin for Fireworks AI translation",
+  "scripts": {
+    "build": "npx tsx scripts/build.ts",
+    "release": "npx tsx scripts/build.ts && bash release.sh"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "esbuild": "^0.25.0",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0"
+  }
+}
