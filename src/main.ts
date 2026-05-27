@@ -1,17 +1,17 @@
 var lang = require("./lang.js");
 
-const DEFAULT_API_URL = "https://api.fireworks.ai/inference/v1";
-const DEFAULT_MODEL = "accounts/fireworks/routers/kimi-k2p6-turbo";
-const CHAT_PATH = "/chat/completions";
+var DEFAULT_API_URL = "https://api.fireworks.ai/inference/v1";
+var DEFAULT_MODEL = "accounts/fireworks/routers/kimi-k2p6-turbo";
+var CHAT_PATH = "/chat/completions";
 
-const Mode = {
+var Mode = {
   Translate: "1",
   Polish: "2",
   Ask: "3",
   Custom: "4",
 } as const;
 
-const TranslationStyle = {
+var TranslationStyle = {
   Default: "default",
   Formal: "formal",
   Casual: "casual",
