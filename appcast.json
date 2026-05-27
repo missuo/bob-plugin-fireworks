@@ -2,6 +2,13 @@
   "identifier": "me.missuo.fireworks.translate",
   "versions": [
     {
+      "version": "1.0.2",
+      "desc": "None",
+      "sha256": "8ec072268b908eacea8c3fa3a591b5a4d5b5ec02367f183b75600b2e6c0c4e5f",
+      "url": "https://github.com/missuo/bob-plugin-fireworks/releases/download/v1.0.2/bob-plugin-fireworks-1.0.2.bobplugin",
+      "minBobVersion": "1.8.0"
+    },
+    {
       "version": "1.0.1",
       "desc": "None",
       "sha256": "786ceddecfbac0a6bf6f086af491fa43cc793336008cc6160ef229d326761c0d",
